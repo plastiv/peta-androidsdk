@@ -9,4 +9,4 @@ before_install:
 - docker build -t android-25 android-25/
 
 script:
-- docker run -it --rm --entrypoint /opt/version-check.sh android-25
+- docker run -it --rm --volume=$(pwd)/android-25:/opt/workspace --entrypoint /opt/workspace/version-check.sh android-25

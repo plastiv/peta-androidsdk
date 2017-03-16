@@ -1,8 +1,8 @@
 FROM debian:jessie
 
 # Add Zulu OpenJDK repo
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9
-RUN echo "deb http://repos.azulsystems.com/debian stable  main" >> /etc/apt/sources.list.d/zulu.list
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9 \
+    && echo "deb http://repos.azulsystems.com/debian stable  main" >> /etc/apt/sources.list.d/zulu.list
 
 # Add 32-bit
 RUN dpkg --add-architecture i386
@@ -43,9 +43,6 @@ RUN echo "y" | sdkmanager "build-tools;25.0.2" \
     "platform-tools" \
     "platforms;android-25" \
     "tools"
-
-# Verify AndroidSDK is installed
-COPY ./version-check.sh /opt/version-check.sh
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
