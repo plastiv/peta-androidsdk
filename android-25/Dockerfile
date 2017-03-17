@@ -23,7 +23,7 @@ RUN apt-get update \
 # Download and extract AndroidSDK
 RUN cd /opt \
     && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/tools_r25.2.5-linux.zip \
-    && unzip android-sdk.zip -d android-sdk-linux \
+    && unzip -q android-sdk.zip -d android-sdk-linux \
     && rm -f android-sdk.zip \
     && chown -R root.root android-sdk-linux
 
