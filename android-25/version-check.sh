@@ -2,7 +2,6 @@
 set -x #echo on
 
 which adb
-which android
 which emulator
 which avdmanager
 which sdkmanager

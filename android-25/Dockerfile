@@ -38,12 +38,16 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}
 
 # Update AndroidSDK
 RUN echo "y" | sdkmanager "build-tools;25.0.2" \
-    "extras;android;m2repository" \
     "emulator" \
+    "extras;android;m2repository" \
     "extras;google;m2repository" \
     "platform-tools" \
     "platforms;android-25" \
+    "system-images;android-25;google_apis;armeabi-v7a" \
     "tools"
+
+# Create AVD
+RUN echo "no" | avdmanager -v create avd --force --name android-25-emulator --package "system-images;android-25;google_apis;armeabi-v7a" --abi "google_apis/armeabi-v7a"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
