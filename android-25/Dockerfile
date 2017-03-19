@@ -39,6 +39,7 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}
 # Update AndroidSDK
 RUN echo "y" | sdkmanager "build-tools;25.0.2" \
     "extras;android;m2repository" \
+    "emulator" \
     "extras;google;m2repository" \
     "platform-tools" \
     "platforms;android-25" \
