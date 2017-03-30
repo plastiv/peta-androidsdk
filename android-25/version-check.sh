@@ -14,9 +14,8 @@ sdkmanager --list
 emulator -list-avds
 emulator-check accel hyper-v cpu-info
 export SHELL=/bin/bash
-cd $ANDROID_HOME/emulator
-emulator -verbose -avd android-25-emulator -no-audio -no-window &
+emulator -verbose -show-kernel -avd android-25-emulator -no-audio -no-window -wipe-data -gpu off -qemu -smp 1 &
 adb devices
-/opt/workspace/android-wait-for-emulator
+./android-wait-for-emulator
 adb devices
 adb shell pm dump com.google.android.gms | grep version

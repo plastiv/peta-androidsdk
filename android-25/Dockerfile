@@ -4,9 +4,6 @@ FROM debian:jessie
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9 \
     && echo "deb http://repos.azulsystems.com/debian stable  main" >> /etc/apt/sources.list.d/zulu.list
 
-# Add 32-bit
-RUN dpkg --add-architecture i386
-
 # Install java and dependencies
 # debug missing lib with ldd `which emulator`
 # check installed libs with ldconfig -p | grep libGL
@@ -17,7 +14,6 @@ RUN apt-get update \
     lib32gcc1 \
     lib32ncurses5 \
     lib32z1 \
-    libc6-i386 \
     libglu1-mesa \
     libmagic1 \
     libpci3 \
@@ -45,7 +41,7 @@ ENV ANDROID_SDK_HOME /opt
 # /tools/bin - avdmanager, sdkmanager
 # /platform-tools - adb
 # /emulator - emulator, emulator64
-ENV PATH ${PATH}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+ENV PATH ${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
 # Update AndroidSDK
 RUN echo "y" | sdkmanager "build-tools;25.0.2" \
