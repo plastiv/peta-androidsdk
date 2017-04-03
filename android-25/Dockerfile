@@ -27,6 +27,7 @@ RUN apt-get update \
     && apt-get clean
 
 # Download and extract AndroidSDK
+# check latest here: https://dl.google.com/android/repository/repository2-1.xml
 RUN cd /opt \
     && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/tools_r25.2.5-linux.zip \
     && unzip -q android-sdk.zip -d android-sdk-linux \
@@ -49,12 +50,12 @@ RUN echo "y" | sdkmanager "build-tools;25.0.2" \
     "extras;android;m2repository" \
     "extras;google;m2repository" \
     "platform-tools" \
-    "platforms;android-25" \
-    "system-images;android-25;google_apis;armeabi-v7a" \
+    "platforms;android-24" \
+    "system-images;android-24;google_apis;armeabi-v7a" \
     "tools"
 
 # Create AVD
-RUN echo "no" | avdmanager --verbose create avd --force --name android-25-emulator --package "system-images;android-25;google_apis;armeabi-v7a" --tag "google_apis" --abi "armeabi-v7a"
+RUN echo "no" | avdmanager --verbose create avd --force --name android-25-emulator --package "system-images;android-24;google_apis;armeabi-v7a" --tag "google_apis" --abi "armeabi-v7a"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
