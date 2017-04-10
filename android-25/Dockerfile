@@ -1,16 +1,22 @@
-FROM debian:jessie
+FROM ubuntu:14.04
 
 # Add Zulu OpenJDK repo
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9 \
-    && echo "deb http://repos.azulsystems.com/debian stable  main" >> /etc/apt/sources.list.d/zulu.list
+    && echo "deb http://repos.azulsystems.com/ubuntu stable main" >> /etc/apt/sources.list.d/zulu.list
 
 # Install java and dependencies
-# debug missing lib with ldd `which emulator`
-# check installed libs with ldconfig -p | grep libGL
-# http://stackoverflow.com/a/37604675/624706
+# to debug missing lib issues use ldconfig -p | grep libGL
+# Dev deps are taken from https://source.android.com/source/initializing#installing-required-packages-ubuntu-1404
+RUN dpkg --add-architecture i386
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+    bison \
+    build-essential \
     file \
+    flex \
+    git-core \
+    gnupg \
+    gperf \
     lib32gcc1 \
     lib32ncurses5 \
     lib32z1 \
@@ -24,6 +30,21 @@ RUN apt-get update \
     unzip \
     wget \
     zulu-8 \
+    ccache \
+    curl \
+    g++-multilib \
+    gcc-multilib \
+    libc6-dev-i386 \
+    lib32ncurses5-dev \
+    lib32z-dev \
+    libgl1-mesa-dev \
+    libx11-dev \
+    libxml2-utils \
+    unzip \
+    x11proto-core-dev \
+    xsltproc \
+    zip \
+    zlib1g-dev \
     && apt-get clean
 
 # Download and extract AndroidSDK
@@ -50,12 +71,12 @@ RUN echo "y" | sdkmanager "build-tools;25.0.2" \
     "extras;android;m2repository" \
     "extras;google;m2repository" \
     "platform-tools" \
-    "platforms;android-24" \
-    "system-images;android-24;google_apis;armeabi-v7a" \
+    "platforms;android-25" \
+    "system-images;android-25;google_apis;armeabi-v7a" \
     "tools"
 
 # Create AVD
-RUN echo "no" | avdmanager --verbose create avd --force --name android-25-emulator --package "system-images;android-24;google_apis;armeabi-v7a" --tag "google_apis" --abi "armeabi-v7a"
+RUN echo "no" | avdmanager --verbose create avd --force --name android-25-emulator --package "system-images;android-25;google_apis;armeabi-v7a" --tag "google_apis" --abi "armeabi-v7a"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
