@@ -14,8 +14,10 @@ sdkmanager --list
 emulator -list-avds
 emulator-check accel hyper-v cpu-info
 export SHELL=/bin/bash
-emulator -verbose -show-kernel -avd android-25-emulator -no-audio -no-window &
-adb devices
+# If you want audio pass QEMU_AUDIO_DRV=pa -> https://www.wagner.pp.ru/fossil/vws/wiki?name=QEMU+audio
+export QEMU_AUDIO_DRV=none
+emulator -verbose -show-kernel -avd android-25-emulator -engine classic -no-window -no-boot-anim &
 ./android-wait-for-emulator
+sleep 120
 adb devices
 adb shell pm dump com.google.android.gms | grep version
