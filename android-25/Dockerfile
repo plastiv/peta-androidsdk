@@ -66,17 +66,16 @@ ENV ANDROID_SDK_HOME /opt
 ENV PATH ${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
 # Update AndroidSDK
-RUN echo "y" | sdkmanager "build-tools;25.0.3" \
+# (get package ids from sdkmanager --list --verbose)
+RUN echo "y" | sdkmanager "build-tools;26.0.1" \
     "emulator" \
-    "extras;android;m2repository" \
-    "extras;google;m2repository" \
     "platform-tools" \
     "platforms;android-25" \
     "system-images;android-25;google_apis;armeabi-v7a" \
     "tools"
 
 # Create AVD
-RUN echo "no" | avdmanager --verbose create avd --force --name android-25-emulator --package "system-images;android-25;google_apis;armeabi-v7a" --tag "google_apis" --abi "armeabi-v7a"
+RUN echo "no" | avdmanager --verbose create avd --force --name android-25-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-25;google_apis;armeabi-v7a" --tag "google_apis" --abi "armeabi-v7a"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
