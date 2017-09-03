@@ -1,8 +1,8 @@
-FROM ubuntu:14.04
+FROM debian:jessie
 
 # Add Zulu OpenJDK repo
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9 \
-    && echo "deb http://repos.azulsystems.com/ubuntu stable main" >> /etc/apt/sources.list.d/zulu.list
+    && echo "deb http://repos.azulsystems.com/debian stable  main" >> /etc/apt/sources.list.d/zulu.list
 
 # Install java and dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
