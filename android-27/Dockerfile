@@ -12,45 +12,51 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     bison \
     build-essential \
+    ccache \
     file \
     flex \
+    g++-multilib \
+    gcc-multilib \
     git-core \
     gnupg \
     gperf \
     lib32gcc1 \
     lib32ncurses5 \
+    lib32ncurses5-dev \
+    lib32z-dev \
     lib32z1 \
+    libc6-dev-i386 \
+    libgl1-mesa-dev \
     libglu1-mesa \
     libmagic1 \
     libpci3 \
     libpulse0 \
+    libx11-dev \
     libxdamage1 \
+    libxml2-utils \
+    locales \
     mesa-utils \
     pciutils \
     unzip \
     wget \
-    zulu-8 \
-    ccache \
-    curl \
-    g++-multilib \
-    gcc-multilib \
-    libc6-dev-i386 \
-    lib32ncurses5-dev \
-    lib32z-dev \
-    libgl1-mesa-dev \
-    libx11-dev \
-    libxml2-utils \
-    unzip \
     x11proto-core-dev \
     xsltproc \
     zip \
     zlib1g-dev \
+    zulu-8 \
     && apt-get clean
+# http://stackoverflow.com/a/37604675/624706
+
+# Set the locale
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && /usr/sbin/locale-gen
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 
 # Download and extract AndroidSDK
-# check latest here: https://dl.google.com/android/repository/repository2-1.xml
+# Get latest version name from https://developer.android.com/studio/index.html#downloads
 RUN cd /opt \
-    && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/tools_r25.2.5-linux.zip \
+    && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip \
     && unzip -q android-sdk.zip -d android-sdk-linux \
     && rm -f android-sdk.zip \
     && chown -R root.root android-sdk-linux
@@ -62,20 +68,21 @@ ENV ANDROID_SDK_HOME /opt
 # /tools - emulator (old), android, proguard
 # /tools/bin - avdmanager, sdkmanager
 # /platform-tools - adb
-# /emulator - emulator, emulator64
+# /emulator - emulator, emulator64 
 ENV PATH ${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
 # Update AndroidSDK
 # (get package ids from sdkmanager --list --verbose)
-RUN echo "y" | sdkmanager "build-tools;26.0.1" \
+RUN yes | sdkmanager --licenses
+RUN echo "y" | sdkmanager "build-tools;27.0.3" \
     "emulator" \
     "platform-tools" \
-    "platforms;android-25" \
-    "system-images;android-25;google_apis;armeabi-v7a" \
+    "platforms;android-27" \
+    "system-images;android-27;google_apis;x86" \
     "tools"
 
 # Create AVD
-RUN echo "no" | avdmanager --verbose create avd --force --name android-25-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-25;google_apis;armeabi-v7a" --tag "google_apis" --abi "armeabi-v7a"
+RUN echo "no" | avdmanager --verbose create avd --force --name android-27-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-27;google_apis;x86" --tag "google_apis" --abi "x86"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace

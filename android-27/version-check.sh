@@ -16,7 +16,7 @@ emulator-check accel hyper-v cpu-info
 export SHELL=/bin/bash
 # If you want audio pass QEMU_AUDIO_DRV=pa -> https://www.wagner.pp.ru/fossil/vws/wiki?name=QEMU+audio
 export QEMU_AUDIO_DRV=none
-emulator -verbose -show-kernel -avd android-25-emulator -no-audio -no-window -gpu off -skin 480x800 &
+emulator -verbose -show-kernel -avd android-27-emulator -no-accel -no-audio -no-window -gpu swiftshader_indirect -skin 480x800 &
 ./android-wait-for-emulator
 sleep 120
 adb devices
