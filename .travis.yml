@@ -7,7 +7,7 @@ services:
 
 before_install:
   - docker info
-  - docker build -t android-27 android-27/
+  - docker build -t android-28 android-28/
 
 script:
-  - docker run -it --rm --volume=$(pwd)/android-27:/opt/workspace --entrypoint /opt/workspace/version-check.sh android-27
+  - docker run -it --rm --volume=$(pwd)/android-28:/opt/workspace --entrypoint /opt/workspace/version-check.sh android-28

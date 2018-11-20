@@ -56,7 +56,7 @@ ENV LANG=en_US.UTF-8 \
 # Download and extract AndroidSDK
 # Get latest version name from https://developer.android.com/studio/index.html#downloads
 RUN cd /opt \
-    && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip \
+    && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip \
     && unzip -q android-sdk.zip -d android-sdk-linux \
     && rm -f android-sdk.zip \
     && chown -R root.root android-sdk-linux
@@ -72,17 +72,17 @@ ENV ANDROID_SDK_HOME /opt
 ENV PATH ${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
 # Update AndroidSDK
-# (get package ids from sdkmanager --list --verbose)
+# Get ids from sdkmanager --list
 RUN yes | sdkmanager --licenses
-RUN echo "y" | sdkmanager "build-tools;27.0.3" \
+RUN echo "y" | sdkmanager "build-tools;28.0.3" \
     "emulator" \
     "platform-tools" \
-    "platforms;android-27" \
-    "system-images;android-27;google_apis;x86" \
-    "tools"
+    "platforms;android-28" \
+    "system-images;android-28;google_apis;x86" \
+    "tools" >/dev/null
 
 # Create AVD
-RUN echo "no" | avdmanager --verbose create avd --force --name android-27-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-27;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | avdmanager create avd --force --name android-28-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-28;google_apis;x86" >/dev/null
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
