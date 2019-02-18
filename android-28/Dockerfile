@@ -3,7 +3,6 @@ FROM debian:stretch
 # Install java and dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
 # Dev deps are taken from https://source.android.com/source/initializing#installing-required-packages-ubuntu-1404
-RUN dpkg --add-architecture i386
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update --quiet --yes \
     && apt-get install --quiet --yes \
@@ -75,11 +74,11 @@ RUN echo "y" | sdkmanager "build-tools;28.0.3" \
     "emulator" \
     "platform-tools" \
     "platforms;android-28" \
-    "system-images;android-28;google_apis;x86" \
+    "system-images;android-28;default;x86_64" \
     "tools" >/dev/null
 
 # Create AVD
-RUN echo "no" | avdmanager --silent create avd --force --name android-28-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-28;google_apis;x86"
+RUN echo "no" | avdmanager --silent create avd --force --name android-28-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-28;default;x86_64"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
