@@ -9,14 +9,13 @@ ldd `which emulator64-arm`
 which avdmanager
 which sdkmanager
 java -Xmx32m -version
-java -Xmx32m -jar $ANDROID_HOME/tools/proguard/lib/proguard.jar
 sdkmanager --list
+export SHELL=/bin/bash
 emulator -list-avds
 emulator-check accel hyper-v cpu-info
-export SHELL=/bin/bash
 # If you want audio pass QEMU_AUDIO_DRV=pa -> https://www.wagner.pp.ru/fossil/vws/wiki?name=QEMU+audio
 export QEMU_AUDIO_DRV=none
-emulator -verbose -show-kernel -avd android-28-emulator -no-accel -no-audio -no-window -gpu swiftshader_indirect -skin 480x800 &
+emulator -verbose -show-kernel -avd android-28-emulator -no-accel -no-audio -no-window -gpu swiftshader_indirect -memory 2048 -skin 480x800 &
 ./android-wait-for-emulator
 adb devices
 adb shell pm dump com.google.android.gms | grep version
