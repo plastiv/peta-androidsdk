@@ -10,4 +10,4 @@ before_install:
   - docker build -t android-28 android-28/
 
 script:
-  - docker run -it --rm --volume=$(pwd)/android-28:/opt/workspace --entrypoint /opt/workspace/version-check.sh android-28
+  - docker run -it --rm --privileged --volume /dev/kvm:/dev/kvm --volume=$(pwd)/android-28:/opt/workspace --entrypoint /opt/workspace/version-check.sh android-28
