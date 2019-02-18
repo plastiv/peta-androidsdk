@@ -8,6 +8,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get install --quiet --yes \
     bison \
     build-essential \
+    bridge-utils \
     ccache \
     file \
     flex \
@@ -30,10 +31,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
     libx11-dev \
     libxdamage1 \
     libxml2-utils \
+    libvirt-clients \
+    libvirt-daemon-system \
     locales \
     mesa-utils \
     openjdk-8-jdk-headless \
     pciutils \
+    qemu-kvm \
+    qemu-utils \
     unzip \
     wget \
     x11proto-core-dev \
