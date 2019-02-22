@@ -1,0 +1,22 @@
+#!/bin/bash
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+
+adb wait-for-device
+boot_completed=`adb -e shell getprop sys.boot_completed 2>&1`
+timeout=0
+until [[ "X${boot_completed:0:1}" = "X1" ]]; do
+    sleep 1
+    boot_completed=`adb shell getprop sys.boot_completed 2>&1 | head -n 1`
+    echo "Read boot_completed property: $boot_completed"
+    let "timeout += 1"
+    if [[ $timeout -gt 300 ]]; then
+         echo "Failed to start emulator"
+         exit 1
+    fi
+done
+
+sleep 5
+
+echo "Emulator is ready"
