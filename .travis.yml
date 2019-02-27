@@ -10,8 +10,7 @@ env:
   - EMULATOR_SDK_VERSION=28
 
 before_install:
-  - docker info
   - docker build --build-arg EMULATOR_SDK_VERSION -t android-emulator-$EMULATOR_SDK_VERSION android-emulator/
 
 script:
-  - docker run -it --rm --privileged --env EMULATOR_SDK_VERSION --volume=$(pwd)/android-emulator:/opt/workspace --entrypoint /opt/workspace/start-emulator.sh android-emulator-$EMULATOR_SDK_VERSION
+  - docker run -it --rm --env EMULATOR_SDK_VERSION --volume=$(pwd)/android-emulator:/opt/workspace --entrypoint /opt/workspace/start-emulator.sh android-emulator-$EMULATOR_SDK_VERSION
