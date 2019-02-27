@@ -1,4 +1,4 @@
-Playground to bundle android sdk into docker container
+Playground to bundle android emulator into docker container (without hardware acceleration)
 ------
 
 Rather then using docker image as is check script to see how to bundle dependencies *you* need into container image. 
