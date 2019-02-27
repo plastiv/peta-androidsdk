@@ -5,9 +5,12 @@ sudo: required
 services:
   - docker
 
+env:
+  - EMULATOR_SDK_VERSION=21  
+
 before_install:
   - docker info
-  - docker build -t android-21 android-21/
+  - docker build --build-arg EMULATOR_SDK_VERSION -t android-emulator-$EMULATOR_SDK_VERSION android-emulator/
 
 script:
-  - docker run -it --rm --privileged --volume=$(pwd)/android-21:/opt/workspace --entrypoint /opt/workspace/version-check.sh android-21
+  - docker run -it --rm --privileged --env EMULATOR_SDK_VERSION --volume=$(pwd)/android-emulator:/opt/workspace --entrypoint /opt/workspace/version-check.sh android-emulator-$EMULATOR_SDK_VERSION

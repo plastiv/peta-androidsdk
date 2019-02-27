@@ -10,7 +10,7 @@ timeout=0
 until [[ "X${boot_completed:0:1}" = "X1" ]]; do
     sleep 1
     boot_completed=`adb -e shell getprop sys.boot_completed 2>&1 | head -n 1`
-    echo "Fetch boot_completed property ${timeout}/500: <${boot_completed}>"
+    echo "Wait for 'shell getprop sys.boot_completed' ${timeout}/500"
     let "timeout += 1"
     if [[ $timeout -gt 500 ]]; then
          echo "Failed to start emulator (timeout)"

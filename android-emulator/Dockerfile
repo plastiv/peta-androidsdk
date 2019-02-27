@@ -72,6 +72,8 @@ ENV ANDROID_SDK_HOME /opt
 # /emulator - emulator, emulator64 
 ENV PATH ${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
+ARG EMULATOR_SDK_VERSION
+
 # Update AndroidSDK
 # Get ids from sdkmanager --list
 RUN yes | sdkmanager --licenses
@@ -79,11 +81,11 @@ RUN echo "y" | sdkmanager "build-tools;28.0.3" \
     "emulator" \
     "platform-tools" \
     "platforms;android-28" \
-    "system-images;android-21;google_apis;x86_64" \
+    "system-images;android-${EMULATOR_SDK_VERSION};google_apis;x86_64" \
     "tools" >/dev/null
 
 # Create AVD
-RUN echo "no" | avdmanager --silent create avd --force --name android-21-emulator --device "4in WVGA (Nexus S)" --package "system-images;android-21;google_apis;x86_64"
+RUN echo "no" | avdmanager --silent create avd --force --name android-emulator-$EMULATOR_SDK_VERSION --device "4in WVGA (Nexus S)" --package "system-images;android-${EMULATOR_SDK_VERSION};google_apis;x86_64"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
