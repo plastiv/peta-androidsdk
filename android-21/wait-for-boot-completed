@@ -1,0 +1,23 @@
+#!/bin/bash
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+
+# Fetch sys.boot_completed instead of init.svc.bootanim to allow -no-window
+adb wait-for-device
+boot_completed=`adb -e shell getprop sys.boot_completed 2>&1 | head -n 1`
+timeout=0
+until [[ "X${boot_completed:0:1}" = "X1" ]]; do
+    sleep 1
+    boot_completed=`adb -e shell getprop sys.boot_completed 2>&1 | head -n 1`
+    echo "Fetch boot_completed property ${timeout}/500: <${boot_completed}>"
+    let "timeout += 1"
+    if [[ $timeout -gt 500 ]]; then
+         echo "Failed to start emulator (timeout)"
+         exit 1
+    fi
+done
+
+sleep 5
+
+echo "Emulator is ready"
