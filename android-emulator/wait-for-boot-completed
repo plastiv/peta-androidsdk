@@ -3,7 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Fetch sys.boot_completed instead of init.svc.bootanim to allow -no-window
+# Fetch sys.boot_completed instead of init.svc.bootanim to allow -no-boot-anim option.
 adb wait-for-device
 boot_completed=`adb -e shell getprop sys.boot_completed 2>&1 | head -n 1`
 timeout=0
