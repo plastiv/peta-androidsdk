@@ -1,6 +1,7 @@
 FROM debian:stretch
 
-ARG EMULATOR_SDK_VERSION
+ARG EMULATOR_API_LEVEL
+ARG EMULATOR_ARCH
 
 # Install java and dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
@@ -81,11 +82,11 @@ RUN echo "y" | sdkmanager "build-tools;28.0.3" \
     "emulator" \
     "platform-tools" \
     "platforms;android-28" \
-    "system-images;android-${EMULATOR_SDK_VERSION};google_apis;x86_64" \
+    "system-images;android-${EMULATOR_API_LEVEL};google_apis;${EMULATOR_ARCH}" \
     "tools" >/dev/null
 
 # Create AVD
-RUN echo "no" | avdmanager --silent create avd --force --name android-emulator-$EMULATOR_SDK_VERSION --device "4in WVGA (Nexus S)" --package "system-images;android-${EMULATOR_SDK_VERSION};google_apis;x86_64"
+RUN echo "no" | avdmanager --silent create avd --force --name android-emulator-$EMULATOR_API_LEVEL --device "4in WVGA (Nexus S)" --package "system-images;android-${EMULATOR_API_LEVEL};google_apis;${EMULATOR_ARCH}"
 
 # GO to workspace
 RUN mkdir -p /opt/workspace

@@ -10,7 +10,7 @@ sdkmanager --list
 emulator -list-avds
 emulator-check accel hyper-v cpu-info
 # https://developer.android.com/studio/run/emulator-commandline#startup-options
-emulator -verbose -avd android-emulator-${EMULATOR_SDK_VERSION} \
+emulator -verbose -avd android-emulator-${EMULATOR_API_LEVEL} \
          -no-accel \
          -no-audio \
          -no-window \
