@@ -9,8 +9,8 @@ ARG EMULATOR_ARCH=x86_64
 # to debug missing lib issues use ldconfig -p | grep libGL
 # Dev deps are taken from https://source.android.com/source/initializing#installing-required-packages-ubuntu-1404
 RUN DEBIAN_FRONTEND=noninteractive \
-    && apt-get update --quiet --yes \
-    && apt-get install --quiet --yes \
+    && apt-get -qq update \
+    && apt-get -qq install \
     bison \
     build-essential \
     bridge-utils \
@@ -49,8 +49,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
     x11proto-core-dev \
     xsltproc \
     zip \
-    zlib1g-dev \
-    && apt-get clean --quiet >/dev/null
+    zlib1g-dev >/dev/null \
+    && apt-get -qq clean
 # http://stackoverflow.com/a/37604675/624706
 
 # Set the locale
