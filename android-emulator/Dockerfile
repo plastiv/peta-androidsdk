@@ -65,15 +65,14 @@ RUN cd /opt \
     && rm -f android-sdk.zip \
     && chown -R root.root android-sdk-linux
 
-# Add enviroment variables
-ENV ANDROID_HOME /opt/android-sdk-linux
-# Path to .android folder with created avd files
-ENV ANDROID_SDK_HOME /opt
-# /tools - emulator (old), android, proguard
-# /tools/bin - avdmanager, sdkmanager
+# Add enviroment variables 
+# https://developer.android.com/studio/command-line/variables#envar
+ENV ANDROID_SDK_ROOT /opt/android-sdk-linux
+ENV ANDROID_SDK_HOME ${ANDROID_SDK_ROOT}/.home/
+# /tools/bin - sdkmanager, avdmanager
 # /platform-tools - adb
-# /emulator - emulator, emulator64 
-ENV PATH ${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
+# /emulator - emulator, emulator-check 
+ENV PATH ${ANDROID_SDK_ROOT}/emulator:${ANDROID_SDK_ROOT}/tools/bin:${ANDROID_SDK_ROOT}/platform-tools:${PATH}
 
 # Update AndroidSDK
 # Get ids from sdkmanager --list
