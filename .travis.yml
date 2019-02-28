@@ -1,9 +1,16 @@
+dist: xenial
+
 language: generic
 
 sudo: required
 
 services:
   - docker
+
+addons:
+  apt:
+    packages:
+      - docker-ce
 
 env:
 # EMULATOR_API_LEVEL=14 x86 is not published. 
@@ -23,7 +30,8 @@ env:
   - EMULATOR_API_LEVEL=28 EMULATOR_ARCH=x86_64
 
 before_install:
-  - docker build --build-arg EMULATOR_API_LEVEL --build-arg EMULATOR_ARCH -t android-emulator-$EMULATOR_API_LEVEL android-emulator/
+  - docker info
 
 script:
+  - docker build --build-arg EMULATOR_API_LEVEL --build-arg EMULATOR_ARCH -t android-emulator-$EMULATOR_API_LEVEL android-emulator/
   - docker run -it --rm --env EMULATOR_API_LEVEL --volume=$(pwd)/android-emulator:/opt/workspace --entrypoint /opt/workspace/start-emulator.sh android-emulator-$EMULATOR_API_LEVEL
