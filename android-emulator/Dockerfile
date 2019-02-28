@@ -50,7 +50,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     xsltproc \
     zip \
     zlib1g-dev \
-    && apt-get clean --quiet
+    && apt-get clean --quiet >/dev/null
 # http://stackoverflow.com/a/37604675/624706
 
 # Set the locale
@@ -70,7 +70,7 @@ RUN cd /opt \
 # Add enviroment variables 
 # https://developer.android.com/studio/command-line/variables#envar
 ENV ANDROID_SDK_ROOT /opt/android-sdk-linux
-ENV ANDROID_SDK_HOME ${ANDROID_SDK_ROOT}/.home/
+ENV ANDROID_SDK_HOME ${ANDROID_SDK_ROOT}/sdk-home
 # /tools/bin - sdkmanager, avdmanager
 # /platform-tools - adb
 # /emulator - emulator, emulator-check 
@@ -78,7 +78,7 @@ ENV PATH ${ANDROID_SDK_ROOT}/emulator:${ANDROID_SDK_ROOT}/tools/bin:${ANDROID_SD
 
 # Update AndroidSDK
 # Get ids from sdkmanager --list
-RUN yes | sdkmanager --licenses
+RUN yes | sdkmanager --licenses >/dev/null
 RUN echo "y" | sdkmanager "build-tools;${BUILD_TOOLS_VERSION}" \
     "emulator" \
     "platform-tools" \
