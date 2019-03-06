@@ -1,14 +1,9 @@
 #!/bin/bash
 
-which sdkmanager
-which avdmanager
-which emulator
-which adb
-ldd `which emulator`
 java -Xmx32m -version
 sdkmanager --list
-emulator -list-avds
-emulator-check accel hyper-v cpu-info
+avdmanager list avd
+emulator-check accel hyper-v cpu-info window-mgr desktop-env
 # https://developer.android.com/studio/run/emulator-commandline#startup-options
 emulator -verbose -avd android-emulator-${EMULATOR_API_LEVEL} \
          -no-accel \
@@ -22,7 +17,7 @@ emulator -verbose -avd android-emulator-${EMULATOR_API_LEVEL} \
          -memory 2048 \
          -skin 480x800 &
 ./wait-for-boot-completed
-adb devices
+adb devices -l
 adb shell pm dump com.google.android.gms | grep version
-sleep 1 
+sleep 2
 adb emu kill
