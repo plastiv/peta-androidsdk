@@ -1,8 +1,6 @@
 # https://docs.travis-ci.com/user/languages/minimal-and-generic/
 language: minimal
 
-sudo: required
-
 services:
   - docker
 
