@@ -83,7 +83,10 @@ RUN yes 'y' | sdkmanager --licenses >/dev/null \
     "tools" >/dev/null
 
 # Create AVD
-RUN yes 'n' | avdmanager --silent create avd --force --name android-emulator-${EMULATOR_API_LEVEL} --device "4in WVGA (Nexus S)" --package "system-images;android-${EMULATOR_API_LEVEL};google_apis;${EMULATOR_ARCH}"
+RUN yes 'n' | avdmanager --silent create avd \
+    --name android-emulator-${EMULATOR_API_LEVEL} \
+    --device "4in WVGA (Nexus S)" \
+    --package "system-images;android-${EMULATOR_API_LEVEL};google_apis;${EMULATOR_ARCH}"
 
 # GO to workspace
 WORKDIR /opt/workspace
