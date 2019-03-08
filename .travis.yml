@@ -1,16 +1,10 @@
-dist: xenial
-
-language: generic
+# https://docs.travis-ci.com/user/languages/minimal-and-generic/
+language: minimal
 
 sudo: required
 
 services:
   - docker
-
-addons:
-  apt:
-    packages:
-      - docker-ce
 
 env:
 # EMULATOR_API_LEVEL=14 x86 is not published. 
