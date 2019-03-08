@@ -78,8 +78,8 @@ ENV PATH ${ANDROID_SDK_ROOT}/emulator:${ANDROID_SDK_ROOT}/tools/bin:${ANDROID_SD
 
 # Update AndroidSDK
 # Get ids from sdkmanager --list
-RUN yes | sdkmanager --licenses >/dev/null
-RUN echo "y" | sdkmanager "build-tools;${BUILD_TOOLS_VERSION}" \
+RUN yes 'y' | sdkmanager --licenses >/dev/null \
+    && yes 'y' | sdkmanager "build-tools;${BUILD_TOOLS_VERSION}" \
     "emulator" \
     "platform-tools" \
     "platforms;android-${PLATFORM_API_LEVEL}" \
@@ -87,8 +87,7 @@ RUN echo "y" | sdkmanager "build-tools;${BUILD_TOOLS_VERSION}" \
     "tools" >/dev/null
 
 # Create AVD
-RUN echo "no" | avdmanager --silent create avd --force --name android-emulator-${EMULATOR_API_LEVEL} --device "4in WVGA (Nexus S)" --package "system-images;android-${EMULATOR_API_LEVEL};google_apis;${EMULATOR_ARCH}"
+RUN yes 'n' | avdmanager --silent create avd --force --name android-emulator-${EMULATOR_API_LEVEL} --device "4in WVGA (Nexus S)" --package "system-images;android-${EMULATOR_API_LEVEL};google_apis;${EMULATOR_ARCH}"
 
 # GO to workspace
-RUN mkdir -p /opt/workspace
 WORKDIR /opt/workspace
