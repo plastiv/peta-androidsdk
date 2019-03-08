@@ -1,5 +1,8 @@
 FROM debian:stretch
 
+# Allow non ascii symbols
+ENV LANG=C.UTF-8
+
 # Install java and dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
 # Dev deps are taken from https://source.android.com/source/initializing#installing-required-packages-ubuntu-1404
@@ -33,7 +36,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
     libxml2-utils \
     libvirt-clients \
     libvirt-daemon-system \
-    locales \
     mesa-utils \
     openjdk-8-jdk-headless \
     pciutils \
@@ -47,12 +49,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
     zlib1g-dev >/dev/null \
     && apt-get -qq clean
 # http://stackoverflow.com/a/37604675/624706
-
-# Set the locale
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && /usr/sbin/locale-gen
-ENV LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8
 
 # Download and extract AndroidSDK
 # Get latest version name from https://developer.android.com/studio/index.html#downloads
