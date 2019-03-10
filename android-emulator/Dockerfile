@@ -1,14 +1,14 @@
 FROM debian:stretch
 
-# Allow non ascii symbols
-ENV LANG=C.UTF-8
+# Default to UTF-8 file.encoding
+ENV LANG C.UTF-8
 
-# Install java and dependencies
+# Install java and android (emulator) dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
 # Dev deps are taken from https://source.android.com/source/initializing#installing-required-packages-ubuntu-1404
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get -qq update \
-    && apt-get -qq install \
+    && apt-get -qq install --no-install-recommends \
     bison \
     build-essential \
     bridge-utils \
@@ -47,7 +47,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
     xsltproc \
     zip \
     zlib1g-dev >/dev/null \
-    && apt-get -qq clean
+    && apt-get -qq clean \
+    && rm -rf /var/lib/apt/lists/*
 # http://stackoverflow.com/a/37604675/624706
 
 # Download and extract AndroidSDK
