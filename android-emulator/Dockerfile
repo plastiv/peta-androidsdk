@@ -3,7 +3,7 @@ FROM debian:stretch
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 
-# Install java and android (emulator) dependencies
+# Download java and android (emulator) dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
 # Dev deps are taken from https://source.android.com/source/initializing#installing-required-packages-ubuntu-1404
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -51,10 +51,11 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt/lists/*
 # http://stackoverflow.com/a/37604675/624706
 
-# Download and extract AndroidSDK
+# Download basic Android command line tools
 # Get latest version name from https://developer.android.com/studio/index.html#downloads
+ENV SDK_ARCHIVE_VERSION=4333796
 RUN cd /opt \
-    && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip \
+    && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-${SDK_ARCHIVE_VERSION}.zip \
     && unzip -q android-sdk.zip -d android-sdk-linux \
     && rm -f android-sdk.zip \
     && chown -R root.root android-sdk-linux
