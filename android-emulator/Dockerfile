@@ -5,55 +5,23 @@ ENV LANG C.UTF-8
 
 # Download java and android (emulator) dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
-# Dev deps are taken from https://source.android.com/source/initializing#installing-required-packages-ubuntu-1404
+# Dev deps are taken from https://developer.android.com/studio/install#linux
+# https://issuetracker.google.com/issues/37094469
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get -qq update \
     && apt-get -qq install --no-install-recommends \
-    bison \
-    build-essential \
-    bridge-utils \
-    ccache \
-    file \
-    flex \
-    g++-multilib \
-    gcc-multilib \
-    git-core \
-    gnupg \
-    gperf \
-    lib32gcc1 \
-    lib32ncurses5 \
-    lib32ncurses5-dev \
-    lib32z-dev \
-    lib32z1 \
-    libc6-dev-i386 \
-    libgl1-mesa-dev \
     libglu1-mesa \
-    libmagic1 \
-    libpci3 \
-    libpulse0 \
-    libx11-dev \
-    libxdamage1 \
-    libxml2-utils \
-    libvirt-clients \
-    libvirt-daemon-system \
-    mesa-utils \
     openjdk-8-jdk-headless \
-    pciutils \
-    qemu-kvm \
-    qemu-utils \
+    qemu-system-x86 \
     unzip \
-    wget \
-    x11proto-core-dev \
-    xsltproc \
-    zip \
-    zlib1g-dev >/dev/null \
+    wget >/dev/null \
     && apt-get -qq clean \
     && rm -rf /var/lib/apt/lists/*
 # http://stackoverflow.com/a/37604675/624706
 
 # Download basic Android command line tools
 # Get latest version name from https://developer.android.com/studio/index.html#downloads
-ENV SDK_ARCHIVE_VERSION=4333796
+ARG SDK_ARCHIVE_VERSION=4333796
 RUN cd /opt \
     && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-${SDK_ARCHIVE_VERSION}.zip \
     && unzip -q android-sdk.zip -d android-sdk-linux \
