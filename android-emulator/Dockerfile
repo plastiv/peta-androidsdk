@@ -25,17 +25,18 @@ ARG SDK_ARCHIVE_VERSION=4333796
 RUN cd /opt \
     && wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-${SDK_ARCHIVE_VERSION}.zip \
     && unzip -q android-sdk.zip -d android-sdk-linux \
-    && rm -f android-sdk.zip \
-    && chown -R root.root android-sdk-linux
+    && rm -f android-sdk.zip
 
 # Add enviroment variables 
 # https://developer.android.com/studio/command-line/variables#envar
 ENV ANDROID_SDK_ROOT /opt/android-sdk-linux
-ENV ANDROID_SDK_HOME ${ANDROID_SDK_ROOT}/sdk-home
 # /tools/bin - sdkmanager, avdmanager
 # /platform-tools - adb
 # /emulator - emulator, emulator-check 
 ENV PATH ${ANDROID_SDK_ROOT}/emulator:${ANDROID_SDK_ROOT}/tools/bin:${ANDROID_SDK_ROOT}/platform-tools:${PATH}
+
+# Set up insecure default adb key
+COPY adb/* /root/.android/
 
 ARG BUILD_TOOLS_VERSION=28.0.3
 ARG PLATFORM_API_LEVEL=28
