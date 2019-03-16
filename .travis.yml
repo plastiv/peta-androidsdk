@@ -27,4 +27,4 @@ before_install:
 
 script:
   - docker build --build-arg EMULATOR_API_LEVEL --build-arg EMULATOR_VARIANT --build-arg EMULATOR_ARCH -t android-emulator-$EMULATOR_API_LEVEL android-emulator/
-  - docker run -it --rm --env EMULATOR_API_LEVEL --volume=$(pwd)/android-emulator:/opt/workspace --entrypoint /opt/workspace/check-image.sh android-emulator-$EMULATOR_API_LEVEL
+  - docker run -it --rm --env EMULATOR_API_LEVEL --env EMULATOR_VARIANT --env EMULATOR_ARCH --volume=$(pwd)/android-emulator:/opt/workspace --entrypoint /opt/workspace/check-image.sh android-emulator-$EMULATOR_API_LEVEL

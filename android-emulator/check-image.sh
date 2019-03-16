@@ -2,6 +2,7 @@
 
 java -Xmx32m -version
 sdkmanager --list
+./create-avd.sh
 avdmanager list avd
 emulator-check accel hyper-v cpu-info window-mgr desktop-env
 ./start-emulator.sh &
