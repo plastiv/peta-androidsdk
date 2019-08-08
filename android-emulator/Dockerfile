@@ -1,22 +1,26 @@
-FROM debian:stretch
+FROM debian:stretch-slim
 
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 
 # Download java and android (emulator) dependencies
-# to debug missing lib issues use ldconfig -p | grep libGL
-# Dev deps are taken from https://developer.android.com/studio/install#linux
-# https://issuetracker.google.com/issues/37094469
-RUN DEBIAN_FRONTEND=noninteractive \
+# man1mkdir workaround for installing java (triggered by using slim base image)
+RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1 \
+    && DEBIAN_FRONTEND=noninteractive \
     && apt-get -qq update \
     && apt-get -qq install --no-install-recommends \
-    libglu1-mesa \
-    openjdk-8-jdk-headless \
-    qemu-system-x86 \
+# Needed for install
     unzip \
-    wget >/dev/null \
-    && apt-get -qq clean \
-    && rm -rf /var/lib/apt/lists/*
+    wget \
+# Emulator & video bridge dependencies
+# to debug missing lib issues use ldconfig -p | grep libGL
+# Dev deps are taken from https://android.googlesource.com/platform/external/adt-infra/+/refs/heads/emu-master-dev/emu-image/external/emu_templates.py
+    libc6 libdbus-1-3 libfontconfig1 libgcc1 \
+    libpulse0 libtinfo5 libx11-6 libxcb1 libxdamage1 \
+    libxext6 libxfixes3 zlib1g libgl1 pulseaudio socat \
+# Java
+    openjdk-8-jdk-headless >/dev/null \
+    && apt-get -qq clean
 # http://stackoverflow.com/a/37604675/624706
 
 # Download basic Android command line tools
@@ -27,13 +31,15 @@ RUN cd /opt \
     && unzip -q android-sdk.zip -d android-sdk-linux \
     && rm -f android-sdk.zip
 
-# Add enviroment variables 
-# https://developer.android.com/studio/command-line/variables#envar
-ENV ANDROID_SDK_ROOT /opt/android-sdk-linux
-# /tools/bin - sdkmanager, avdmanager
+# Add enviroment variables
+ENV ANDROID_HOME /opt/android-sdk-linux
+# Path to .android folder with created avd files
+ENV ANDROID_SDK_HOME /opt
+# /tools - emulator (old), android, proguard
+# /tools/bin - avdmanager, sdkmanager
 # /platform-tools - adb
-# /emulator - emulator, emulator-check 
-ENV PATH ${ANDROID_SDK_ROOT}/emulator:${ANDROID_SDK_ROOT}/tools/bin:${ANDROID_SDK_ROOT}/platform-tools:${PATH}
+# /emulator - emulator, emulator64
+ENV PATH ${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
 # Set up insecure default adb key
 COPY adb/* /root/.android/
