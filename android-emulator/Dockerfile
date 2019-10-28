@@ -14,9 +14,10 @@ RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1 \
     wget \
 # Emulator & video bridge dependencies
 # to debug missing lib issues use ldconfig -p | grep libGL
-# Dev deps are taken from https://android.googlesource.com/platform/external/adt-infra/+/refs/heads/emu-master-dev/emu-image/external/emu_templates.py
+# Dev deps are taken from https://github.com/google/android-emulator-container-scripts/blob/master/emu/templates/Dockerfile#L22-L26
     libc6 libdbus-1-3 libfontconfig1 libgcc1 \
     libpulse0 libtinfo5 libx11-6 libxcb1 libxdamage1 \
+    libnss3 libxcomposite1 libxcursor1 \
     libxext6 libxfixes3 zlib1g libgl1 pulseaudio socat \
 # Java
     openjdk-8-jdk-headless >/dev/null \
